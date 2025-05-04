@@ -1,0 +1,1 @@
+probably wont be able to get this done very soon. the idea is to try to make a raytracing simulation in C or C++ using SDL similar to what Daniel Hirsch did in https://www.youtube.com/watch?v=2BLRLuczykM&t=1585s. as of today (first commit, may 3rd 2025) i finally got SDL3 to work
