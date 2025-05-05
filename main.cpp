@@ -10,11 +10,11 @@
 
 const int WIDTH = 800, HEIGHT = 600;
 bool running = true;
-int mouseX, mouseY;
+float mouseX, mouseY;
 
 int main(int argc, char *argv[]){
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window *window = SDL_CreateWindow("title", WIDTH, HEIGHT, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    SDL_Window *window = SDL_CreateWindow("ray tracing", WIDTH, HEIGHT, SDL_WINDOW_HIGH_PIXEL_DENSITY);
     SDL_Surface* mySurface = SDL_GetWindowSurface(window);
     SDL_Event windowEvent;
 
@@ -23,6 +23,8 @@ int main(int argc, char *argv[]){
     }
 
     Circle Ball(400, 300, 100, mySurface, WHITE);
+    Sun LightSource(200, 150, 50, mySurface, WHITE); //FIXME
+    float mouseX, mouseY;
 
     //main loop
     while (running){
@@ -33,9 +35,18 @@ int main(int argc, char *argv[]){
                 running = false;
             }
 
+            SDL_ClearSurface(mySurface, 0, 0, 0, 0);
+
             Ball.FillCircle();
+            LightSource.FillCircle();
 
+            Uint32 buttons = SDL_GetMouseState(&mouseX, &mouseY);
 
+            if (buttons & SDL_BUTTON_LMASK && mouseX >= LightSource.xPos - LightSource.radius && mouseX <= LightSource.xPos + LightSource.radius && mouseY >= LightSource.yPos - LightSource.radius && mouseY <= LightSource.yPos + LightSource.radius){
+                LightSource.xPos = mouseX;
+                LightSource.yPos = mouseY;
+            }
+            
             SDL_UpdateWindowSurface(window);
         }
     }
