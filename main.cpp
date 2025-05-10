@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
     }
 
     Circle Ball(400, 300, 100, mySurface, WHITE);
-    Sun LightSource(200, 150, 50, mySurface, WHITE); //FIXME
+    Sun LightSource(200, 150, 50, mySurface, YELLOW); //FIXME
     float mouseX, mouseY;
 
     //main loop
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]){
 
             Ball.FillCircle();
             LightSource.FillCircle();
+            LightSource.DrawRays();
 
             Uint32 buttons = SDL_GetMouseState(&mouseX, &mouseY);
 

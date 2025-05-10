@@ -1,5 +1,14 @@
 #include <cmath>
 #define M_PI 3.14159265358979323846
+#define YELLOW 0xffffff00
+#define WHITE 0xffffffff
+
+void drawSetPixel(SDL_Surface* mySurface, Uint32 color, double x, double y){
+    int trueX = (int) x;
+    int trueY = (int) y;
+    SDL_Rect pixel = {trueX, trueY, 1, 1};
+    SDL_FillSurfaceRect(mySurface, &pixel, color);
+}
 
 class Circle{
     public:
@@ -38,10 +47,10 @@ struct Ray{
 
 class Sun : public Circle{
     public:
-        Ray raysArray[36];
+        Ray raysArray[360];
         
         void CastRays(){
-            for (int i = 0; i < 36; i++){
+            for (int i = 0; i < 360; i++){
                 raysArray[i].originX = this->xPos;
                 raysArray[i].originY = this->yPos;
 
@@ -52,13 +61,31 @@ class Sun : public Circle{
                 raysArray[i].directionY = sin(raysArray[i].angle);
 
 
-                //TODO: make rays actually be rendered. rn they are being simulated but not actually drawn to the surface
+                //TODO: find a way to make more rays
                 //TODO: program ray collision
+            }
+        }
+
+        void DrawRays(){
+            for (int i = 0; i < 360; i++){ //TODO: program objectHit boolean and make collision with object
+                double endPoint = 1000;
+                raysArray[i].originX = xPos;
+                raysArray[i].originY = yPos;
+
+                double tempX = raysArray[i].originX, tempY = raysArray[i].originY;
+
+                for (int j = 0; j < endPoint; j++){
+                    drawSetPixel(mySurface, YELLOW, tempX, tempY);
+
+                    tempX += raysArray[i].directionX;
+                    tempY += raysArray[i].directionY;
+                }   
             }
         }
 
         Sun(double xPos, double yPos, double radius, SDL_Surface* mySurface, Uint32 color) : Circle(xPos, yPos, radius, mySurface, color){
             CastRays();
+            DrawRays();
         }
 
 };
