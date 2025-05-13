@@ -1,6 +1,6 @@
 #include <cmath>
 #define M_PI 3.14159265358979323846
-#define YELLOW 0xffffff00
+#define YELLOW 0xffd43b
 #define WHITE 0xffffffff
 
 void drawSetPixel(SDL_Surface* mySurface, Uint32 color, double x, double y){
@@ -53,7 +53,7 @@ class Sun : public Circle{
     public:
         Ray raysArray[360];
         
-        void CastRays(){
+        void CastRays(){ //TODO: program ray blur
             for (int i = 0; i < 360; i++){
                 raysArray[i].originX = this->xPos;
                 raysArray[i].originY = this->yPos;
@@ -63,13 +63,11 @@ class Sun : public Circle{
 
                 raysArray[i].directionX = cos(raysArray[i].angle);
                 raysArray[i].directionY = sin(raysArray[i].angle);
-
-                //TODO: program ray collision
             }
         }
 
         void DrawRays(Circle Obstacle){
-            for (int i = 0; i < 360; i++){ //TODO: program objectHit boolean and make collision with object
+            for (int i = 0; i < 360; i++){
                 double endPoint = 1000;
                 raysArray[i].originX = xPos;
                 raysArray[i].originY = yPos;

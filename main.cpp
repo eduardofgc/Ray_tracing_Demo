@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
     }
 
     Circle Ball(400, 300, 100, mySurface, WHITE);
-    Sun LightSource(200, 150, 50, mySurface, WHITE); //FIXME
+    Sun LightSource(200, 150, 50, mySurface, WHITE);
     float mouseX, mouseY;
 
     //main loop
