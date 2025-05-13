@@ -1,1 +1,2 @@
-probably wont be able to get this done very soon. the idea is to try to make a raytracing simulation in C or C++ using SDL similar to what Daniel Hirsch did in https://www.youtube.com/watch?v=2BLRLuczykM&t=1585s. as of today (first commit, may 3rd 2025) i finally got SDL3 to work
+fun little raytracing thingy in c++ using sdl. move object with wasd and drag the light source with the mouse.
+inspired by Daniel Hirsch's https://www.youtube.com/watch?v=2BLRLuczykM&t=1585s.

@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
     }
 
     Circle Ball(400, 300, 100, mySurface, WHITE);
-    Sun LightSource(200, 150, 50, mySurface, YELLOW); //FIXME
+    Sun LightSource(200, 150, 50, mySurface, WHITE); //FIXME
     float mouseX, mouseY;
 
     //main loop
@@ -34,22 +34,40 @@ int main(int argc, char *argv[]){
             if (SDL_EVENT_QUIT == windowEvent.type){
                 running = false;
             }
-
-            SDL_ClearSurface(mySurface, 0, 0, 0, 0);
-
-            Ball.FillCircle();
-            LightSource.FillCircle();
-            LightSource.DrawRays();
-
-            Uint32 buttons = SDL_GetMouseState(&mouseX, &mouseY);
-
-            if (buttons & SDL_BUTTON_LMASK && mouseX >= LightSource.xPos - LightSource.radius && mouseX <= LightSource.xPos + LightSource.radius && mouseY >= LightSource.yPos - LightSource.radius && mouseY <= LightSource.yPos + LightSource.radius){
-                LightSource.xPos = mouseX;
-                LightSource.yPos = mouseY;
-            }
-            
-            SDL_UpdateWindowSurface(window);
         }
+
+        SDL_ClearSurface(mySurface, 0, 0, 0, 0);
+
+        Ball.FillCircle();
+        LightSource.DrawRays(Ball);
+        LightSource.FillCircle();
+
+        //drag sun with mouse
+        Uint32 buttons = SDL_GetMouseState(&mouseX, &mouseY);
+
+        if (buttons & SDL_BUTTON_LMASK && mouseX >= LightSource.xPos - LightSource.radius && mouseX <= LightSource.xPos + LightSource.radius && mouseY >= LightSource.yPos - LightSource.radius && mouseY <= LightSource.yPos + LightSource.radius){
+            LightSource.xPos = mouseX;
+            LightSource.yPos = mouseY;
+        }
+
+        //move obstacle with wasd
+        const bool* keyState = SDL_GetKeyboardState(NULL);
+
+        if (keyState[SDL_SCANCODE_W]){
+            Ball.yPos = Ball.yPos - 5;
+        }
+        if (keyState[SDL_SCANCODE_S]){
+            Ball.yPos = Ball.yPos + 5;
+        }
+
+        if (keyState[SDL_SCANCODE_A]){
+            Ball.xPos = Ball.xPos - 5;
+        }
+        if (keyState[SDL_SCANCODE_D]){
+            Ball.xPos = Ball.xPos + 5;
+        }
+            
+        SDL_UpdateWindowSurface(window);
     }
 
     SDL_DestroyWindow(window);

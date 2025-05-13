@@ -39,6 +39,10 @@ class Circle{
                 }
             }
         }
+
+        void MoveCircle(){
+            
+        }
 };
 
 struct Ray{
@@ -54,38 +58,48 @@ class Sun : public Circle{
                 raysArray[i].originX = this->xPos;
                 raysArray[i].originY = this->yPos;
 
-                raysArray[i].angleDeg = i * 10.0;
+                raysArray[i].angleDeg = i * 1.0;
                 raysArray[i].angle = raysArray[i].angleDeg * (M_PI / 180.0);
 
                 raysArray[i].directionX = cos(raysArray[i].angle);
                 raysArray[i].directionY = sin(raysArray[i].angle);
 
-
-                //TODO: find a way to make more rays
                 //TODO: program ray collision
             }
         }
 
-        void DrawRays(){
+        void DrawRays(Circle Obstacle){
             for (int i = 0; i < 360; i++){ //TODO: program objectHit boolean and make collision with object
                 double endPoint = 1000;
                 raysArray[i].originX = xPos;
                 raysArray[i].originY = yPos;
 
                 double tempX = raysArray[i].originX, tempY = raysArray[i].originY;
+                bool objectHit = false;
 
                 for (int j = 0; j < endPoint; j++){
-                    drawSetPixel(mySurface, YELLOW, tempX, tempY);
 
-                    tempX += raysArray[i].directionX;
-                    tempY += raysArray[i].directionY;
+                    double distanceX = Obstacle.xPos - tempX;
+                    double distanceY = Obstacle.yPos - tempY;
+
+                    if (distanceX * distanceX + distanceY * distanceY <= pow(Obstacle.radius, 2)){
+                        objectHit = true;
+                    }
+
+                    if (!objectHit){
+                        drawSetPixel(mySurface, YELLOW, tempX, tempY);
+
+                        tempX += raysArray[i].directionX;
+                        tempY += raysArray[i].directionY;
+                    }
+
+                    objectHit = false;
                 }   
             }
         }
 
         Sun(double xPos, double yPos, double radius, SDL_Surface* mySurface, Uint32 color) : Circle(xPos, yPos, radius, mySurface, color){
             CastRays();
-            DrawRays();
         }
 
 };
